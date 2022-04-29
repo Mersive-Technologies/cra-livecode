@@ -1,34 +1,42 @@
 import React, {useState} from 'react';
 import './App.css';
-import PeopleList from "./PeopleList";
+import PeopleList, {Person} from "./PeopleList";
 
-const initialState = [
-  {
-    firstName: `Alan`,
-    lastName: `Turing`
-  }
+const initialState: Person[] = [
+    {
+        firstName: `Alan`,
+        lastName: `Turing`
+    }
 ]
 
 const App = () => {
-  const [people, setPeople] = useState(initialState);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+    const [people, setPeople] = useState(initialState);
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
 
-  console.log(`My render function has been invoked!`)
+    console.log(`My render function has been invoked!`)
 
-  const save = () => {
-    const person = { firstName, lastName };
-    setPeople((curPeople) => [...curPeople, person]);
-  }
+    const save = () => {
+        const person: Person = {firstName, lastName};
+        setPeople((curPeople: Person[]) => [...curPeople, person]);
+    }
 
-  return (
-    <div className="App">
-        <PeopleList people={people} />
-        First Name: <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)}/><br/>
-        Last Name: <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)}/><br/>
-        <input type="button" value="Save" onClick={() => save()} />
-    </div>
-  );
+    const onDeletePerson = (index: number) => {
+        setPeople((prevPeople: Person[]) => {
+            const clonedPeople = [...prevPeople]
+            clonedPeople.splice(index, 1)
+            return clonedPeople
+        })
+    }
+
+    return (
+        <div className="App">
+            <PeopleList people={people} onDeletePerson={onDeletePerson} />
+            First Name: <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)}/><br/>
+            Last Name: <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)}/><br/>
+            <input type="button" value="Save" onClick={() => save()}/>
+        </div>
+    );
 }
 
 export default App;
