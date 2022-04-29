@@ -22,16 +22,24 @@ const App = () => {
     }
 
     const onDeletePerson = (index: number) => {
-        setPeople((prevPeople: Person[]) => {
+        setPeople((prevPeople) => {
             const clonedPeople = [...prevPeople]
             clonedPeople.splice(index, 1)
             return clonedPeople
         })
     }
 
+    const onEditPerson = (index: number) => {
+        setPeople((prevPeople) => {
+            const clonedPeople = [...prevPeople]
+            clonedPeople[index] = {firstName: firstName, lastName: lastName}
+            return clonedPeople
+        })
+    }
+
     return (
         <div className="App">
-            <PeopleList people={people} onDeletePerson={onDeletePerson} />
+            <PeopleList people={people} onEditPerson={onEditPerson} onDeletePerson={onDeletePerson} />
             First Name: <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)}/><br/>
             Last Name: <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)}/><br/>
             <input type="button" value="Save" onClick={() => save()}/>
