@@ -9,7 +9,7 @@ const initialState = [
   }
 ]
 
-const App = () => {
+const App: React.FC = () => {
   const [people, setPeople] = useState(initialState);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -21,9 +21,17 @@ const App = () => {
     setPeople((curPeople) => [...curPeople, person]);
   }
 
+  const handleDeletePerson = (id: number) => {
+    setPeople(prevPeople => {
+      const newPeople = [...prevPeople];
+      newPeople.splice(id, 1);
+      return newPeople;
+    });
+  }
+
   return (
     <div className="App">
-        <PeopleList people={people} />
+        <PeopleList people={people} onDelete={handleDeletePerson} />
         First Name: <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)}/><br/>
         Last Name: <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)}/><br/>
         <input type="button" value="Save" onClick={() => save()} />
